@@ -15,12 +15,11 @@ sudo apt install git -y  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Para Debian/Ubuntu)
 Para ArchLinux <br>
 sudo pacman -Syu git
 
- **Clonar el proyecto** <br>
-Para clonar únicamente en la terminal escribe después de esto: <br>
-git clone https://github.com/IZone7/<br>
+**Clonar el proyecto** <br>
+Para clonar únicamente en la terminal escribe esto: <br>
+git clone https://github.com/IZone7-GHub/Debian13/<br>
 +El nombre del repositorio<br>
  Ejemplo: <br>
-  **Si quieres clonar el repositorio JavaScript (Proyecto1)** <br>
-  
- ```bash
-git clone https://github.com/IZone7/javascript_proyecto01.git
+  **Si quieres clonar el repositorio JavaScript** <br>
+   ```bash
+git clone https://github.com/IZone7-GHub/Debian13/javascript.git
