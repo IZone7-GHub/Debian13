@@ -17,7 +17,7 @@ sudo pacman -Syu git
 
 **Clonar todos los archivos a tu máquina** <br>
 <p><b>En la terminal escribe esto: </b></p>
-<p>Va a generar una carpeta con el nombre Debian13, con todo el contenido de este repositorio</p>
+<p>Va a generar una carpeta con el nombre Debian13 en tu máquina, con todos los archivos de este repositorio</p>
 <pre><code>git clone https://github.com/IZone7-GHub/Debian13.git <br></code></pre>
 
 **Descargar el archivo 001-0_Atajos**
