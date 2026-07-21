@@ -21,11 +21,9 @@ git clone https://github.com/IZone7-GHub/Debian13/<br>
 +El nombre del repositorio<br>
  Ejemplo: <br>
   **Descargar el archivo 001-0_Atajos** <br>
-   ```bash
-Con wget
-wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
-Con curl
-curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
-Con wget
+   Con wget
 ```bash
-wget [https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt](https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt)
+wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
+   Con curl
+```bash
+curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
