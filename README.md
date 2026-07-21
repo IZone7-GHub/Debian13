@@ -20,7 +20,13 @@ sudo pacman -Syu git
 <p>Va a generar una carpeta con el nombre Debian13 en tu máquina, con todos los archivos de este repositorio</p>
 <pre><code>git clone https://github.com/IZone7-GHub/Debian13.git <br></code></pre>
 
-**Descargar individual**
+**Descarga individual**
+Archivo: 001-0_Atajos.txt 
+<p><b>Con wget</b></p>
+<pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
+<p><b>Con curl</b></p>
+<pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
+
 Archivo: 001-0_Atajos.txt 
 <p><b>Con wget</b></p>
 <pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
