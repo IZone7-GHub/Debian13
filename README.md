@@ -21,16 +21,8 @@ sudo pacman -Syu git
 <pre><code>git clone https://github.com/IZone7-GHub/Debian13.git <br></code></pre>
 
 **Descarga individual**
-Archivo: 001-0_Atajos.txt 
-<p><b>Con wget</b></p>
+<p><b>Con wget</b>Archivo: 001-0_Atajos.txt</p>
 <pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
-<p><b>Con curl</b></p>
-<pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
-
-**Descarga individual**
-Archivo: 001-0_Atajos.txt 
-<p><b>Con wget</b></p>
-<pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
-<p><b>Con curl</b></p>
+<p><b>Con curl</b>Archivo: 001-0_Atajos.txt</p>
 <pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
 
