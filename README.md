@@ -27,8 +27,10 @@ Archivo: 001-0_Atajos.txt
 <p><b>Con curl</b></p>
 <pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
 
+**Descarga individual**
 Archivo: 001-0_Atajos.txt 
 <p><b>Con wget</b></p>
 <pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
 <p><b>Con curl</b></p>
 <pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
+
