@@ -20,10 +20,7 @@ Para clonar únicamente en la terminal escribe esto: <br>
 git clone https://github.com/IZone7-GHub/Debian13/<br>
 +El nombre del repositorio<br>
  Ejemplo: <br>
-  **Si quieres clonar el repositorio JavaScript** <br>
-   ```bash
-git clone https://github.com/IZone7-GHub/Debian13/javascript.git<br>
-**Descargar el archivo 001-0_Atajos** <br>
+  **Descargar el archivo 001-0_Atajos** <br>
    ```bash
 wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
 curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
