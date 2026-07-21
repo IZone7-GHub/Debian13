@@ -15,14 +15,12 @@ sudo apt install git -y    (Para Debian/Ubuntu)
 Para ArchLinux <br>
 sudo pacman -Syu git
 
-**Clonar el proyecto** <br>
-Para clonar únicamente en la terminal escribe esto: <br>
-git clone https://github.com/IZone7-GHub/Debian13/ <br>
-+El nombre del repositorio <br>
-Ejemplo: 
+**Clonar todos los archivos a tu máquina** <br>
+<p><b>En la terminal escribe esto: </b></p>
+<p>Va a generar una carpeta con el nombre Debian13, con todo el contenido de este repositorio</p>
+<pre><code>git clone https://github.com/IZone7-GHub/Debian13.git <br></code></pre>
 
 **Descargar el archivo 001-0_Atajos**
-
 <p><b>Con wget</b></p>
 <pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
 
