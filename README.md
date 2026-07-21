@@ -27,3 +27,13 @@ wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.tx
    Con curl
 ```bash
 curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
+
+
+Descargar el archivo 001-0_Atajos
+
+Con wget
+```bash
+wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
+Con curl
+Bash
+curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
