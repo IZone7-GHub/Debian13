@@ -1,0 +1,106 @@
+----------- Crear y Configurar repositorios de Debian  Linux ----------- 
+
+------------------------------------------------------------------------------------
+01.– sudo apt update
+Actualizar la lista de paquetes disponibles (no actualiza programas)
+------------------------------------------------------------------------------------
+02.- Validar el contenido del archivo sources.list
+cat /etc/apt/sources.list
+------------------------------------------------------------------------------------
+03.- Copiar el sources.list con el nombre listado.txt a otra ruta, en este ejemplo a la carpeta tutoriales
+cat /etc/apt/sources.list > ~/tutoriales/listado.txt
+------------------------------------------------------------------------------------
+04.- Abrir con editor de texto el archivo listado.txt
+mousepad ~/tutoriales/listado.txt
+------------------------------------------------------------------------------------
+05.- Hacer un respaldo del archivo sources.list
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.back
+------------------------------------------------------------------------------------
+06.- Editar el archivo sources.list con el siguiente comando
+sudo nano /etc/apt/sources.list
+Comentar todas las líneas del archivo.
+Al inicio del archivo colocamos esto:
+deb http://archive.ubuntu.com/ubuntu jammy main
+Guardar y salir.
+------------------------------------------------------------------------------------
+07 .- Validar el contenido del archivo ya modificado sources.list
+cat /etc/apt/sources.list
+------------------------------------------------------------------------------------
+08 .- Validar que APT detecté repositorios no oficiales y bloquea la actualización por seguridad
+sudo apt update 
+Nos muestra el error de repositorio ya que Debian no es compatible con repositorios de Ubuntu.
+------------------------------------------------------------------------------------
+09 .- Regresar el archivo sources.list como estaba inicialmente
+sudo nano /etc/apt/sources.list
+Borrar la primera linea donde colocamos: deb http://archive.ubuntu.com/ubuntu jammy main
+Y las demás lineas quitarle el # que son para todas las que comienzan con deb
+Guardar y Salir
+------------------------------------------------------------------------------------
+10 .- Validar que el siguiente comando funcione
+sudo apt update 
+------------------------------------------------------------------------------------
+11 .- Lo Vamos a cambiar a https el archivo sources.list, actualmente lo tenemos en http.
+Ponerlo como https sirve para añadir una capa extra de privacidad y evitar que intercepten los paquetes que estamos descargando
+Antes de poner el https y cambiarlo seria unicamente instalar desde la terminal
+sudo apt install apt-transport-https ca-certificates
+------------------------------------------------------------------------------------
+12.- Para saber si tenemos instalado los paquetes
+apt list --installed apt-transport-https ca-certificates
+------------------------------------------------------------------------------------
+13.- Generar nuestro sources.list
+Las lineas que vamos a generar serian las siguientes:
+Paquetes normales  /  Parches de seguridad /  Updates
+------------------------------------------------------------------------------------
+14.- El contenido es el siguiente del archivo sources.list
+sudo nano /etc/apt/sources.list
+Ctrl + K:              A cada linea
+Ctrl + C:             Copiar el contenido de abajo
+Ctrl + Shift + V: Pegar el contenido en el nano
+
+Pegar este contenido:
+# Debian 13 "Trixie" - Paquetes normales
+deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+
+# Debian 13 "Trixie" - Parches de seguridad
+deb https://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+deb-src https://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+
+# Debian 13 "Trixie" - Updates
+deb https://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+
+Guardar y Salir
+------------------------------------------------------------------------------------
+15.- Validar si la información si cambio en el archivo sources.list
+cat /etc/apt/sources.list
+------------------------------------------------------------------------------------
+16.- Probar nuestro update
+sudo apt update
+Va a Actualizar la lista de paquetes disponibles (no actualiza programas)
+Y validar que ya cambió a https
+------------------------------------------------------------------------------------
+17.- El listado se genera en la siguiente ruta: /var/lib/apt/lists
+Para ver el contenido es con este comando: 
+ls /var/lib/apt/lists
+------------------------------------------------------------------------------------
+18.- ¿Si borramos todo el contenido que esta en esta ruta /var/lib/apt/lists que pasaria?
+Cuando APT se corrompe o si en algun momento vemos que nuestro sistema un error que dice: 
+“Hash Sum mismatch” (paquetes corruptos al descargar) o errores extraños de sincronización. 
+La solución estándar es eliminar todo el contenido de esta ruta:
+
+Ejecutar el siguiente comando para eliminar el contenido:
+sudo rm -rf /var/lib/apt/lists/*
+
+Ejecutar el siguiente comando decirle a Debian que bajé el catálogo completamente limpio y desde cero:
+sudo apt update
+Con esto se hace la "limpieza del pizarrón" por decirlo de alguna manera.
+Lo va a generar nuevamente el listado en esta ruta: /var/lib/apt/lists/
+------------------------------------------------------------------------------------
+19.- Validamos si ya lo generó
+ls /var/lib/apt/lists/
+------------------------------------------------------------------------------------
+20.- Limpiamos y actualizamos para asegurarnos de que todo funciona.
+sudo apt clean
+sudo apt update
+------------------------------------------------------------------------------------

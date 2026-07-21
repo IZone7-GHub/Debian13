@@ -1,0 +1,62 @@
+------------------------------------------------------------------------
+Agregar Usuario con privilegios sudo en Debian 13
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+01.- Nuestro usuario a crear se llamará: test
+------------------------------------------------------------------------
+02.- id test
+------------------------------------------------------------------------
+03.- sudo adduser test
+Aquí el sistema nos va a pedir una contraseña esa sí es obligatoria
+y los datos personales los pueden dejar en blanco sin ningún problema.
+------------------------------------------------------------------------
+04.- id test
+------------------------------------------------------------------------
+05.- Entrar como usuario test.
+¿Cómo me cambio?
+su - test
+Contraseña: 12345
+------------------------------------------------------------------------
+06. sudo apt update
+El sistema responde que el usuario no está en sudoers.
+Validamos la seguridad del sistema que esté funcionando correctamente.
+------------------------------------------------------------------------
+07. Regresar al usuario que sí tiene privilegios administrativos.
+su - izone
+------------------------------------------------------------------------
+08. Desde aquí le damos permisos al usuario test:
+sudo usermod -aG sudo test
+Con esto, el usuario test ya tiene privilegios sudo.
+------------------------------------------------------------------------
+09. Verificamos los grupos con:
+groups test
+------------------------------------------------------------------------
+10. Ahora entramos otra vez como test:
+su - test
+------------------------------------------------------------------------
+Y si ejecutamos:
+11. sudo apt update
+El comando ya se ejecuta sin ningún problema.
+
+------------------------------------------------------------------------
+Eliminar el usuario
+------------------------------------------------------------------------
+01. Eliminar Solo usuario, dejando su carpeta
+sudo deluser nombre_usuario
+------------------------------------------------------------------------
+02. Eliminar Usuario + carpeta personal
+sudo deluser --remove-home test
+------------------------------------------------------------------------
+03. Eliminar Usuario + carpeta + archivos fuera de /home
+sudo deluser --remove-home --remove-all-files nombre_usuario
+------------------------------------------------------------------------
+Validación
+------------------------------------------------------------------------
+01. Verificar eliminación
+id nombre_usuario
+Debe decir: no such user
+
+Asegurarnos que el usuario no esté logueado ni con procesos activos antes de eliminarlo:
+ps -u nombre_usuario
+sudo killall -u nombre_usuario

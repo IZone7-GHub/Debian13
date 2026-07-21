@@ -1,0 +1,47 @@
+---------------------------------------------------------------------------------------
+Tuberías en un sistema Debian
+---------------------------------------------------------------------------------------
+
+Generar una carpeta con el nombre de su preferencia
+Tomando la muestra del video la carpeta se llama tutoriales
+---------------------------------------------------------------------------------------
+Tomando el tema de las tuberias veamos este ejemplo
+Comando_A | Comando_B | Comando_C
+Imaginemos que tenemos una fabrica de construcción entonces.
+Comando A: Tenemos todo el contenido que llega en un camión que son:
+(Arena, Tierra y Piedras).
+La primer tuberia lo que hace es filtrar:
+Y solo deja pasar la arena y la tierra pero nos quita las piedras.
+La segunda tuberia lo que hace es filtrar nuevamente:
+Pero ahora solo deja pasar la arena 
+El resultado seria la arena limpia.
+---------------------------------------------------------------------------------------
+Crear un archivo en la terminal que se llame materiales.txt
+cat > materiales.txt
+Camión con Arena, Piedras y Tierra
+Remover Piedras
+Remover Tierra
+Arena Limpia
+Ctrl + D (Para guardar y salir)
+cat materiales.txt
+---------------------------------------------------------------------------------------
+cat materiales.txt | grep -v "Piedras" | grep -v "Tierra"
+¿ Que hace ?
+cat materiales.txt: Tenemos todo el contenido de Arena, Piedras y Tierra
+|: La primer tuberia lo que hace es:
+Elimina las piedras 
+Con la opcion -v le decimos que pase todo excepto "Piedras".
+|: La segunda tuberia lo que hace es: 
+Elimina la Tierra.
+Con la opcion -v le decimos que pase todo excepto "Tierra".
+Y el resultado en pantalla solo aparece la Arena Limpia.
+---------------------------------------------------------------------------------------
+La siguiente manera con un E
+cat materiales.txt | grep -Ev "Piedras|Tierra"
+¿ Que hace ?
+La letra E es: Permite que el símbolo que es la tuberia | funcione como un "O"
+Un ejemplo seria como en un menu de restaurante: 1 jugo de naranja o un cafe. 
+En este caso seria buscar Piedras O Tierra.
+Y con la letra v seria eliminar Piedras o Tierra
+Y solo va a mostrar Arena Limpia.
+---------------------------------------------------------------------------------------

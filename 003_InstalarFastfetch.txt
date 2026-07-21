@@ -1,0 +1,34 @@
+----------------------------------------------------------------------------------------
+Instalar Fastfetch en Debian 13
+----------------------------------------------------------------------------------------
+Observación:
+Si al ejecutar la siguiente línea: sudo apt update
+Aparece (N) packages can be upgraded.
+
+Realizar lo siguiente:
+sudo apt upgrade -y
+Confirmar nuevamente con:
+sudo apt update
+All packages are up to date.
+Si aparece All packages are up to date, continuar con el paso 1
+----------------------------------------------------------------------------------------
+1. Instalar Fastfetch
+sudo apt install fastfetch
+Esto instala el programa fastfetch desde los repositorios oficiales.
+----------------------------------------------------------------------------------------
+2. Ejecutar Fastfetch
+fastfetch
+Esto muestra información del sistema (CPU, RAM, sistema operativo, etc.) en la terminal.
+----------------------------------------------------------------------------------------
+3. Desinstalar Fastfetch
+sudo apt remove fastfetch
+Esto elimina el programa pero mantiene archivos de configuración.
+----------------------------------------------------------------------------------------
+Para eliminar completamente:
+sudo apt purge fastfetch
+Esto elimina el programa junto con sus configuraciones.
+----------------------------------------------------------------------------------------
+Limpiar dependencias innecesarias:
+sudo apt autoremove -y
+Esto elimina paquetes que ya no son necesarios.
+----------------------------------------------------------------------------------------

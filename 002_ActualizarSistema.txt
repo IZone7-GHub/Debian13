@@ -1,0 +1,53 @@
+-----------------------------------------------------------
+Actualizar Linux Debian 13
+-----------------------------------------------------------
+
+-----------------------------------------------------------
+1. sudo apt update
+Actualizar la lista de paquetes disponibles (no actualiza programas)
+-----------------------------------------------------------
+2. sudo apt upgrade 
+Actualizar los paquetes instalados a su versión más reciente:
+-----------------------------------------------------------
+3. sudo apt full-upgrade --simulate | less
+Importante:
+Antes de actualizar completamente el sistema, realizar una simulación del proceso para validar qué cambios se aplicarán
+Esto indica los cambios que se realizarían (instalar, eliminar o configurar paquetes) sin aplicarlos realmente.
+-----------------------------------------------------------
+4. sudo apt full-upgrade -y
+Si no se observa la eliminación de paquetes importantes, se puede continuar 
+El parámetro -y hace que el sistema responda:  sí - automáticamente.
+-----------------------------------------------------------
+5. sudo apt autoremove -y
+Limpiar paquetes innecesarios (dependencias que ya no se usan)
+Esto indica que se eliminarán paquetes que ya no son necesarios para el sistema.
+-----------------------------------------------------------
+6. sudo apt clean
+Limpiar archivos de instalación descargados (.deb)
+-----------------------------------------------------------
+7. sudo apt --fix-broken install
+Corregir dependencias si hubo errores durante la actualización, el sistema va a corregir dependencias en los paquetes instalados.
+-----------------------------------------------------------
+10. sudo reboot
+Reiniciar el sistema (recomendado si se actualizó el kernel)
+-----------------------------------------------------------
+-----------------------------------------------------------
+Después de reinicia el sistema.
+Ver la versión del sistema
+1. lsb_release -a
+Ver la versión del sistema
+Ejemplo:
+Description: Debian GNU/Linux 13 (Trixie)
+Esto indica la versión actual del sistema operativo.
+
+2. cat /etc/os-release
+Ejemplo:
+PRETTY_NAME="Debian GNU/Linux 13 (Trixie)"
+Esto muestra información detallada del sistema.
+-----------------------------------------------------------
+3. uname -r
+Ver el kernel activo
+Ejemplo:
+6.1.0-18-amd64
+Esto indica la versión del kernel que está en uso actualmente.
+-----------------------------------------------------------
