@@ -23,6 +23,7 @@ sudo pacman -Syu git
 **Descarga individual**
 <p><b>En la terminal escribe esto: </b></p>
 <p><b>Ejemplo con wget: </b>Si solo se quiere el .txt de: Archivo: 001-0_Atajos.txt</p>
+<p>Después del /main/nombredelarchivo.txt</p>
 <pre><code>wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
 <p><b>Ejemplo con curl: </b>Si solo se quiere el .txt de: Archivo: 001-0_Atajos.txt</p>
 <pre><code>curl -O https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt</code></pre>
