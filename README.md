@@ -22,8 +22,7 @@ git clone https://github.com/IZone7-GHub/Debian13/<br>
  Ejemplo: <br>
   **Si quieres clonar el repositorio JavaScript** <br>
    ```bash
-git clone https://github.com/IZone7-GHub/Debian13/javascript.git
-
+git clone https://github.com/IZone7-GHub/Debian13/javascript.git<br>
 **Descargar el archivo 001-0_Atajos** <br>
    ```bash
 wget https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/001-0_Atajos.txt
