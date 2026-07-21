@@ -21,7 +21,7 @@ sudo pacman -Syu git
 <pre><code>git clone https://github.com/IZone7-GHub/Debian13.git <br></code></pre>
 
 **Descarga individual**
-Únicamente se escribe despúes de esto para ambos casos si es con wget o con curl:<br>
+Únicamente escribir en la terminal: <br>
 https://raw.githubusercontent.com/IZone7-GHub/Debian13/main/NombredelArchivo.txt<br>
 
 <p><b>Ejemplo con wget: </b>Si solo se quiere el .txt de: Archivo: 001-0_Atajos.txt</p>
