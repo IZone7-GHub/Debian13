@@ -1,0 +1,61 @@
+----------------------------------------------------------------------------------------
+Arreglar errores de dpkg en Debian 13
+----------------------------------------------------------------------------------------
+Validar que exista el paquete vim
+which vim
+----------------------------------------------------------------------------------------
+Limpiar instalaciones previas de Vim
+sudo apt purge vim vim-runtime vim-tiny vim-common
+Escribir Y (Sí)
+sudo apt autoremove
+Escribir Y (Sí)
+----------------------------------------------------------------------------------------
+Verificar que Vim
+which vim  
+No debe aparecer ningún paquete relacionado con vim.
+----------------------------------------------------------------------------------------
+Descargar el paquete Vim
+Ingresar a la carpeta:
+cd ~/Downloads
+Descargar el paquete:
+apt download vim
+Esto descarga el .deb:
+vim_2%3a9.1.1230-2_amd64.deb
+Verificar que exista:
+ls *.deb
+----------------------------------------------------------------------------------------
+Simular instalación interrumpida de dpkg
+sudo dpkg --unpack vim_2%3a9.1.1230-2_amd64.deb
+----------------------------------------------------------------------------------------
+Confirmar mensaje de paquetes no configurados de dpkg
+sudo dpkg -C
+Salida:
+The following packages have been unpacked but not yet configured: vim
+----------------------------------------------------------------------------------------
+Tratar de instalar nano 
+sudo apt install nano, 
+Nos va a mandar un error de dependencias de vim
+----------------------------------------------------------------------------------------
+Intento manual de reparación con dpkg
+sudo dpkg --configure -a
+dpkg no resuelve dependencias, solo intenta configurar lo ya instalado.
+----------------------------------------------------------------------------------------
+Reparación correcta
+sudo apt -f install
+Escribir Y (Sí)
+o de manera manual observando las dependencias que falten
+sudo apt install vim vim-runtime vim-common
+----------------------------------------------------------------------------------------
+Verificar que el sistema quedó limpio
+sudo dpkg -C
+No debe mostrar nada
+----------------------------------------------------------------------------------------
+Tratar de instalar nano nuevamente
+sudo apt install nano
+No nos manda ya ningún error
+----------------------------------------------------------------------------------------
+Validar que el paquete vim esta instalado
+which vim
+Salida:
+/ruta de vim/
+----------------------------------------------------------------------------------------
