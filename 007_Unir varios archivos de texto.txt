@@ -1,0 +1,36 @@
+---------------------------------------------------------------------------------------------
+Unir archivos de texto en 1 solo con Debian 13
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+Ingresar a la carpeta tutoriales
+cd tutoriales
+ls
+Validar si tenemos archivos (No se deben de tener ningún) 
+---------------------------------------------------------------------------------------------
+Nos ubicamos en el directorio (tutoriales)
+Creamos los 5 archivos en formato txt
+for i in {1..5}; do echo "regla_numero $i"> archivo$i.txt; done
+---------------------------------------------------------------------------------------------
+Validamos que existan los archivos
+ls
+---------------------------------------------------------------------------------------------
+Para ver el contenido del archivo archivo1.txt
+cat archivo1.txt
+---------------------------------------------------------------------------------------------
+Para visualizar el contenido de todos los archivos
+cat archivo{1..5}.txt
+---------------------------------------------------------------------------------------------
+Usamos cat para juntar todos los .txt en un solo archivo.
+cat *.txt > listado.txt
+Esto crea el archivo todos.txt con el contenido de todos los archivos.
+---------------------------------------------------------------------------------------------
+Visualizar el contenido del archivo listado.txt
+cat listado.txt
+---------------------------------------------------------------------------------------------
+Para ver en el explorador de archivos
+Alt + F2
+thunar ~/tutoriales
+---------------------------------------------------------------------------------------------
+Visualizar el contenido de los archivos dando doble clic en cualquier archivo
+---------------------------------------------------------------------------------------------
