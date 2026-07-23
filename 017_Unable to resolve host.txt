@@ -1,0 +1,38 @@
+-------------------------------------------------------------------------------------------------------
+Solucionar: unable to resolve host Name or service not known
+-------------------------------------------------------------------------------------------------------
+Visualizar el mensaje de: unable to resolve host
+sudo apt update
+Aparece:
+sudo: unable to resolve host debian-pc: <<== Este nombre aparece en el video, pero en su máquina cambiaría.
+-------------------------------------------------------------------------------------------------------
+¿Por qué pasa? 
+sudo intenta resolver el hostname de tu equipo (debian-pc) y no lo encuentra en /etc/hosts.
+-------------------------------------------------------------------------------------------------------
+Para Solucionarlo
+-------------------------------------------------------------------------------------------------------
+Debemos validar que tanto /etc/hostname como /etc/hosts tengan el mismo nombre (en este caso: debian13).
+
+Para visualizar el contenido de: /etc/hostname y de /etc/hosts
+cat /etc/hostname
+Visualizar contenido (Nombre)
+
+cat /etc/hosts
+Visualizar contenido (Nombre)
+-------------------------------------------------------------------------------------------------------
+Abrir el contenido de etc/hostname:
+sudo nano /etc/hostname
+Cambiar el nombre a: debian13
+Guardar y Cerrar
+-------------------------------------------------------------------------------------------------------
+Ejecutar para aplicar cambios:
+sudo systemctl restart systemd-hostnamed
+Después de ejecutar el anterior comando va a aparecer:
+unable to resolve host (Nombre) Name or service not known
+Es normal
+-------------------------------------------------------------------------------------------------------
+Validar si está solucionado
+exit
+Volver a abrir la terminal Ctrl + Alt + T
+Ya cambio el prompt correctamente
+-------------------------------------------------------------------------------------------------------
