@@ -1,0 +1,46 @@
+--------------------------------------------------------------------------------------------
+Arreglar Could not get lock en Debian 13
+--------------------------------------------------------------------------------------------
+Verifica que exista gimp:
+which gimp
+--------------------------------------------------------------------------------------------
+Desinstalar gimp:
+sudo apt purge gimp gimp-data gimp-help-common gimp-help-es
+Escribir Y (Sí)
+sudo apt autoremove
+Escribir Y (Sí)
+------------------------------------------------------------------------------------------------------------------------------------
+Validar si gimp existe
+which gimp
+No debe de mandar ninguna salida
+------------------------------------------------------------------------------------------------------------------------------------
+Iniciar instalación de gimp con un sleep
+sudo apt install gimp &
+Enter
+Después de dar Enter, escribir: 
+sleep 2
+Debe de aparecer stopped
+------------------------------------------------------------------------------------------------------------------------------------
+Confirmar el mensaje: Could not get lock 
+sudo apt install nano
+Debe de aparecer 
+Waiting for cache lock: Could not get lock
+Copiar el número de proceso que aparece después de:
+by proccess 9099 <<=== este número (apt)
+Detenemos o cancelamos el proceso con: Ctrl + C
+------------------------------------------------------------------------------------------------------------------------------------
+Solucionarlo
+Detener correctamente el proceso bloqueante
+sudo kill -9 9099   <<== mismo número del que salió en el anterior comando
+------------------------------------------------------------------------------------------------------------------------------------
+Asegurar que no quede lock colgado
+sudo rm -f /var/lib/dpkg/lock-frontend
+sudo rm -f /var/lib/dpkg/lock
+------------------------------------------------------------------------------------------------------------------------------------
+Dejar dpkg consistente
+sudo dpkg --configure -a
+------------------------------------------------------------------------------------------------------------------------------------
+Verificación
+sudo apt install nano
+Ya no debe dar errores
+------------------------------------------------------------------------------------------------------------------------------------
