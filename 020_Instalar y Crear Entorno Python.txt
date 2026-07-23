@@ -1,0 +1,73 @@
+-------------------------------------------------------------------------------------------
+Crear Entorno Python en Debian 13
+-------------------------------------------------------------------------------------------
+Ver la version que tenemos de python
+python3 --version
+Salida sería así: Python 3.13.5 (3.13 es la version y el .5 es la versión del parche)
+Por lo tanto la version venv seria la misma y es lo que nos permite crear el entorno
+-------------------------------------------------------------------------------------------
+Desinstalar unicamente lo que permite crear el entorno
+sudo apt remove python3.13-venv
+-------------------------------------------------------------------------------------------
+Entrar a la ruta donde será el nuevo entorno
+cd /home/izone/tutoriales
+-------------------------------------------------------------------------------------------
+Crear carpeta del proyecto
+mkdir -p python_e
+-------------------------------------------------------------------------------------------
+Ingresar a la carpeta
+cd /home/izone/tutoriales/python_e
+-------------------------------------------------------------------------------------------
+Tratar de crear el entorno virtual
+python3 -m venv venv
+Nos va a mandar el mensaje: apt install python3.13-venv
+-------------------------------------------------------------------------------------------
+Borrar la carpeta: python_e
+rm -rf python_e
+Para hacerlo desde cero nuevamente
+-------------------------------------------------------------------------------------------
+Validar que ya no exista la carpeta
+ls
+-------------------------------------------------------------------------------------------
+Instalar venv
+sudo apt install python3.13-venv
+Ya que toma esta version con su ultimo parche actualizado
+-------------------------------------------------------------------------------------------
+Después de instalar
+Crear carpeta del proyecto
+mkdir -p python_e
+-------------------------------------------------------------------------------------------
+Ingresar a python_e
+cd python_e
+-------------------------------------------------------------------------------------------
+Validamos que no tenga ningún contenido la carpeta
+ls
+-------------------------------------------------------------------------------------------
+Crear el entorno virtual
+python3 -m venv venv
+-------------------------------------------------------------------------------------------
+ Activar el entorno
+source venv/bin/activate
+Verás algo como:
+(venv) izone@Debian:~/tutoriales$
+-------------------------------------------------------------------------------------------
+Crear archivo Python (Hola Mundo)
+nano hola_mundo.py
+Con el siguiente contenido:
+#!/usr/bin/env python3
+nombre = input("Escribe tu nombre:  ")
+print("Hola", nombre) 
+print("Hola Mundo")
+Guardar y salir
+ -------------------------------------------------------------------------------------------
+Hacer el archivo ejecutable
+chmod +x hola_mundo.py
+-------------------------------------------------------------------------------------------
+Ejecutar el script dentro del entorno
+python3 hola_mundo.py
+Si es ejecutable:
+./hola_mundo.py
+-------------------------------------------------------------------------------------------
+Desactivar el entorno
+deactivate
+-------------------------------------------------------------------------------------------
