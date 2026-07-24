@@ -1,0 +1,302 @@
+--------------------------------------------------------------------------------------------------------
+Desinstalar, Instalar y Configurar MariaDB en Debian 13
+--------------------------------------------------------------------------------------------------------
+Verificar si MariaDB está instalado
+sudo systemctl status mariadb
+--------------------------------------------------------------------------------------------------------
+Alternativa de verificación si no se usa systemctl directamente
+sudo service mariadb status
+--------------------------------------------------------------------------------------------------------
+Verificar la versión directamente desde el cliente de mariadb
+mariadb --version
+--------------------------------------------------------------------------------------------------------
+Verificar la versión usando el comando heredado de mysql
+mysql --version
+--------------------------------------------------------------------------------------------------------
+Para verlos juntos seria asi 
+mariadb --version && mysql --version
+--------------------------------------------------------------------------------------------------------
+Estos pasos son para la DB, Tablas y Usuarios que tenía creado anteriormente
+Escribir el siguiente comando para ingresar: 
+mariadb -u root -p
+Contraseña: 12345 <<== Esta contraseña es para hacer el video y no la pongan en un entorno real
+O con el siguiente comando:
+mariadb -u root -p12345
+--------------------------------------------------------------------------------------------------------
+Dentro del monitor interactivo de MariaDB
+Muestra las bases de datos
+SHOW DATABASES;
+Ingresa a la base de datos
+USE izone_db;
+Muestra las tablas dentro de la base de datos izone_db
+SHOW TABLES;
+Ver los registros que contiene la tabla usuarios_tb
+SELECT * FROM usuarios_tb;
+Para salir
+EXIT;
+--------------------------------------------------------------------------------------------------------
+Ver las bases de datos que tenemos
+mariadb -u root -p12345 -e "SHOW DATABASES;"
+--------------------------------------------------------------------------------------------------------
+Ver tablas que están dentro de la base de datos izone_db
+mariadb -u root -p -e "SHOW TABLES FROM izone_db;"
+--------------------------------------------------------------------------------------------------------
+Ver los usuarios que tenemos
+mariadb -u root -p -e "SELECT User, Host FROM mysql.user;"
+--------------------------------------------------------------------------------------------------------
+Ver todo junto
+Se le escribe la letra D para que utilice por defecto la base de datos izone_db
+mariadb -u root -p -D izone_db -e "SHOW DATABASES; SHOW TABLES; SELECT User, Host FROM mysql.user;"
+--------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------
+Desinstalación Completa
+--------------------------------------------------------------------------------------------------------
+Verificar el servicio
+sudo systemctl status mariadb
+--------------------------------------------------------------------------------------------------------
+Detener el servicio de MariaDB
+sudo systemctl stop mariadb
+--------------------------------------------------------------------------------------------------------
+Verificar que el servicio esté completamente detenido
+sudo systemctl status mariadb
+--------------------------------------------------------------------------------------------------------
+Desinstalar el servidor, clientes, dependencias y plugins
+sudo apt-get remove --purge mariadb-server mariadb-client mariadb-client-core mariadb-server-core mariadb-common mariadb-plugin-* libmariadb* -y
+Decimos que Si o Yes en Remove (Pantalla Azul)
+--------------------------------------------------------------------------------------------------------
+Eliminar residuos, dependencias huérfanas y limpiar la caché de paquetes
+sudo apt-get autoremove -y
+sudo apt-get autoclean
+--------------------------------------------------------------------------------------------------------
+Eliminar directorios de configuración y bases de datos residuales
+sudo rm -rf /etc/mysql
+sudo rm -rf /var/lib/mysql
+sudo rm -rf /var/log/mysql
+sudo rm -rf /var/log/mariadb
+sudo rm -rf /var/lib/mariadb
+sudo rm -rf /var/lib/mysql-files
+--------------------------------------------------------------------------------------------------------
+Si lo queremos todo junto seria asi 
+sudo rm -rf /var/lib/mysql /var/log/mysql /etc/mysql /var/log/mariadb /var/lib/mariadb /var/lib/mysql-files
+--------------------------------------------------------------------------------------------------------
+Confirmar que no quedan rastros de comandos ni de configuraciones
+which mariadb
+No debe de salir nada
+which mysql
+No debe de salir nada
+sudo systemctl status mariadb
+Unit mariadb.service could not be found.
+--------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------
+Instalación Limpia y Configuración
+--------------------------------------------------------------------------------------------------------
+Actualizar los repositorios del sistema
+sudo apt update
+Si aparecen packages pueden ser upgraded
+sudo apt upgrade -y
+Validamos nuevamente
+sudo apt update
+Debe de aparecer:
+Al packages are up to date.
+--------------------------------------------------------------------------------------------------------
+Instalar MariaDB Server y el Cliente oficial
+sudo apt install mariadb-server mariadb-client -y
+--------------------------------------------------------------------------------------------------------
+Habilitar e iniciar el servicio para que arranque con el sistema
+sudo systemctl enable mariadb --now
+--------------------------------------------------------------------------------------------------------
+Seguridad Inicial del Servidor
+--------------------------------------------------------------------------------------------------------
+Validar el script de seguridad disponible en Debian 13
+which mariadb-secure-installation
+--------------------------------------------------------------------------------------------------------
+Para no dejar Higiene de Seguridad Pobre, Ejecutar el asistente de seguridad
+sudo mariadb-secure-installation
+Como MariaDB está recién instalado, viene sin contraseña. 
+Pasos a seguir:
+ENTER al primero
+n (no) al segundo
+y (si)  a todo lo demás 
+--------------------------------------------------------------------------------------------------------
+Aquí escribo los pasos a detalle:
+¿Deseas cambiar a la autenticación por socket de Unix?
+Switch to unix_socket authentication [Y/n]: n
+
+Cambiar la contraseña de root, nos va a pedir 2 veces para confirmar que es la misma
+Change the root password? [Y/n]: y  
+Contraseña (12345)  <<== Esta contraseña es para solo utilizar en el vídeo, no la pongan en un entorno real
+Confirmación (12345)  <<== Esta contraseña es para solo utilizar en el vídeo, no la pongan en un entorno real
+
+¿Deseas eliminar los usuarios anónimos?
+Le decimos a MariaDB que no puede entrar nadie sin hacer login evitamos los usuarios fantasmas
+Remove anonymous users? [Y/n]: y
+
+¿Deseas prohibir que el usuario root inicie sesión de forma remota?
+Le decimos a  MariaDB que todo lo que quieran hacer, lo van a realizar en nuestras instalaciones y no fuera de ellas
+Disallow root login remotely? [Y/n]: y
+
+¿Deseas eliminar la base de datos llamada 'test' y el acceso a ella?
+Cada vez que instalamos MariaDB desde cero, 
+El sistema crea automáticamente unas bases de datos internas para poder funcionar.
+Una de ellas es la base de datos llamada test.
+Remove test database and access to it? [Y/n]: y
+
+¿Deseas recargar las tablas de permisos ahora mismo?
+Reload privilege tables now? [Y/n]: y
+--------------------------------------------------------------------------------------------------------
+Pruebas de Conexión
+--------------------------------------------------------------------------------------------------------
+Conexión administrativa con privilegios sudo o el monitor interactivo de MariaDB.
+sudo mariadb -u root -p12345
+Tiene que ingresar al monitor interactivo:
+MariaDB [none] 
+--------------------------------------------------------------------------------------------------------
+Ver la versión del motor de base de datos y el usuario actual
+MariaDB [(none)]> SELECT VERSION(), CURRENT_USER;
+--------------------------------------------------------------------------------------------------------
+Ver las Bases de datos que generó MariaDB
+MariaDB [(none)]> SHOW DATABASES;
+Importante: Estas solo son para mirar pero no tenemos que tocarlas
+Nos va a mostrar 4 bases de datos
+
+information_schema
+Es nuestro catálogo de las bases de datos. No guarda datos de usuarios, 
+mysql
+Es nuestro cerebro operativo. Aquí es donde MariaDB guarda los usuarios, las contraseñas
+performance_schema
+Es el monitor de rendimiento. 
+sys
+Es nuestro asistente de lectura rápida. 
+--------------------------------------------------------------------------------------------------------
+Crear una base de datos nueva llamada izone_db.
+MariaDB [(none)]> CREATE DATABASE izone_db;
+--------------------------------------------------------------------------------------------------------
+Validamos si la base de datos esta generada
+MariaDB [(none)]> SHOW DATABASES;
+--------------------------------------------------------------------------------------------------------
+Crea un nuevo usuario llamado izone_us y le asignamos la contraseña 12345.
+MariaDB [(none)]> CREATE USER 'izone_us'@'localhost' IDENTIFIED BY '12345';
+--------------------------------------------------------------------------------------------------------
+Otorgamos privilegios al usuario izone_us sobre la base de datos izone_db
+Para que tenga el control total.
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON izone_db.* TO 'izone_us'@'localhost';
+--------------------------------------------------------------------------------------------------------
+Recarga las tablas de privilegios en la memoria del servidor de MariaDB.
+MariaDB [(none)]> FLUSH PRIVILEGES;
+--------------------------------------------------------------------------------------------------------
+Cerramos la sesión de administrador en MariaDB.
+MariaDB [(none)]> EXIT;
+--------------------------------------------------------------------------------------------------------
+Validar que podemos acceder con el nuevo usuario izone_us 
+mariadb -u izone_us -p12345
+--------------------------------------------------------------------------------------------------------
+Dentro de MariaDB con el usuario izone_us:
+MariaDB [(none)]> SHOW DATABASES;
+Nos muestra la bases de datos:
+information_schema
+izone_db
+--------------------------------------------------------------------------------------------------------
+Ingresamos a la base de datos izone_db
+MariaDB [(none)]> USE izone_db;
+El prompt cambia a;
+MariaDB [(izone_db)]>
+--------------------------------------------------------------------------------------------------------
+Vemos las tablas dentro de izone_db
+MariaDB [(izone_db)]> SHOW TABLES;
+Nos tiene que aparecer: Empty
+--------------------------------------------------------------------------------------------------------
+Creamos una tabla que se llame: usuarios_tb
+MariaDB [izone_db]> 
+CREATE TABLE usuarios_tb (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL,
+email VARCHAR(100) UNIQUE NOT NULL,
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+Que significa:
+CREATE TABLE = Crear tabla (nombre de la tabla)
+id = Nombre de nuestro primer columna
+INT = Número Entero
+AUTO_INCREMENT = Contador de la tabla
+PRIMARY KEY = Llave Primaria
+
+nombre = Nombre de nuestra segunda columna
+VARCHAR = Texto Variable de longitud (numeros, letras, simbolos) en este fue a 50
+NOT NULL = Campo obligatorio, no puede estar estar vacío
+
+email = Nombre de nuestra tercer columna
+VARCHAR = Texto Variable de longitud (numeros, letras, simbolos) en este fue a 100
+UNIQUE NOT NULL = Campo obligatorio y ademas que no se repita con otro registro
+
+fecha_registro = Nombre de nuestra cuarta columna
+TIMESTAMP = Tipo para fecha y hora.
+DEFAULT CURRENT_TIMESTAMP= Coloque la hora y fecha exacta en el campo 
+
+Cerramos con:
+);
+--------------------------------------------------------------------------------------------------------
+Validamos que se haya creado la tabla usuarios_tb
+MariaDB [izonedb]> SHOW TABLES;
+--------------------------------------------------------------------------------------------------------
+Vemos la estructura de la tabla
+MariaDB [izonedb]> DESCRIBE usuarios_tb;
+--------------------------------------------------------------------------------------------------------
+Ingresamos 1 registro a la tabla usuarios_tb
+MariaDB [izonedb]> INSERT INTO usuarios_tb (nombre, email) VALUES ('Ana', 'ana@example.com');
+--------------------------------------------------------------------------------------------------------
+Validamos el registro 
+MariaDB [izonedb]> SELECT * FROM usuarios_tb;
+Debe de aparecer el registro insertamos
+--------------------------------------------------------------------------------------------------------
+Ingresamos 1 registro nuevo a la tabla usuarios_tb
+MariaDB [izonedb]> INSERT INTO usuarios_tb (nombre, email) VALUES ('Carlos', 'carlos@example.com');
+--------------------------------------------------------------------------------------------------------
+Validamos el registro 
+MariaDB [izonedb]> SELECT * FROM usuarios_tb;
+Debe de aparecer los dos registros que insertamos
+--------------------------------------------------------------------------------------------------------
+Salimos
+MariaDB [izonedb]>EXIT;
+--------------------------------------------------------------------------------------------------------
+Insertamos registros desde un archivo externo a la tabla: usuarios_tb
+mariadb -u izone_us -p12345 izone_db
+
+Para importar el archivo .csv que esta en tutoriales y se llama usuarios.csv
+MariaDB [izonedb]> 
+LOAD DATA LOCAL INFILE '/home/izone/tutoriales/usuarios.csv'
+INTO TABLE usuarios_tb
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(nombre, email);
+
+¿Que significa cada línea?
+LOAD DATA LOCAL INFILE: Comando de MariaDB para cargar archivos externos.
+FIELDS TERMINATED BY ',': Indicamos que las columnas en el CSV están separadas por comas.
+ENCLOSED BY '"': Si hay textos con comillas dobles, los respete.
+LINES TERMINATED BY '\n': Cada registro cambia con un salto de línea.
+IGNORE 1 ROWS: Se salta la primera línea del CSV porque contiene los títulos, lo toma desde la segunda fila.
+(nombre, email) Le indicamos las columnas donde debe ingresar los registros.
+
+Debe de aparecer según los registros que tenga el archivo
+En este caso fue asi
+Query OK, 25 rows affected
+Records: 25
+--------------------------------------------------------------------------------------------------------
+Para ver si cargo los registros
+MariaDB [izonedb]>SELECT * FROM usuarios_tb;
+--------------------------------------------------------------------------------------------------------
+Salimos con:
+MariaDB [izonedb]> EXIT;
+--------------------------------------------------------------------------------------------------------
+Exportar de la tabla usuarios_tb a un archivo csv, con el nombre nuevo.csv
+mariadb -u izone_us -p12345 -e "SELECT id, nombre, email, fecha_registro FROM usuarios_tb;" izone_db > /home/izone/tutoriales/nuevo.csv
+--------------------------------------------------------------------------------------------------------
+Validamos el contenido del archivo nuevo.csv
+cat ~/tutoriales/nuevo.csv
+Salida sería los registros que contiene la tabla usuarios_tb
+--------------------------------------------------------------------------------------------------------
