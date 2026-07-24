@@ -1,0 +1,258 @@
+-------------------------------------------------------------------------------------------------------
+Instalar y Configurar PhpMyAdmin en Debian 13
+-------------------------------------------------------------------------------------------------------
+Validar si tenemos phpMyAdmin en nuestro sistema.
+dpkg -l | grep phpmyadmin
+
+Nos tiene que mostrar doble ii al inicio indicando que si lo tenemos instalado.
+Si no les aparece nada, no hay ningún problema ya que lo vamos a instalar desde cero nuevamente.
+En el apartado Instalación de este archivo.
+-------------------------------------------------------------------------------------------------------
+Si lo tienes instalado, es decir apareció doble ii al inicio, puedes seguir este procedimiento:
+En nuestro caso con el video anterior, colocamos un usuario llamado: 
+izone_us
+Contraseña: 12345
+Si en el caso de tener el mismo usuario se puede seguir este procedimiento.
+De lo contrario únicamente cambiar por el nombre que generaste en tu máquina.
+-------------------------------------------------------------------------------------------------------
+Ver el estado del servicio 
+sudo systemctl status mariadb 
+Aparece: (active)
+-------------------------------------------------------------------------------------------------------
+Detener el servicio para que veamos el error 2002
+sudo systemctl stop mariadb
+-------------------------------------------------------------------------------------------------------
+Ver nuevamente el estado del servicio
+sudo systemctl status mariadb 
+Aparece: (inactive)
+-------------------------------------------------------------------------------------------------------
+Lanzar el navegador y nos tiene que mostrar un error 2002
+firefox http://localhost/phpmyadmin/ &
+-------------------------------------------------------------------------------------------------------
+Colocamos el usuario que hicimos que fue
+Usuario: izone_us
+Contraseña: 12345
+Al darle login nos tiene que aparecer el error 2002
+Esto se debe a que nuestro servicio esta detenido
+-------------------------------------------------------------------------------------------------------
+Para solucionar esto es iniciar el servicio:
+sudo systemctl start mariadb 
+-------------------------------------------------------------------------------------------------------
+Ver nuevamente el estado del servicio
+sudo systemctl status mariadb 
+Aparece: (active)
+-------------------------------------------------------------------------------------------------------
+Lanzar nuevamente el navegador 
+firefox http://localhost/phpmyadmin/ &
+-------------------------------------------------------------------------------------------------------
+Colocamos el usuario que hicimos que fue
+Usuario: izone_us
+Contraseña: 12345
+Al darle login nos tiene que dejar ingresar sin ningún problema
+-------------------------------------------------------------------------------------------------------
+Desinstalación
+-------------------------------------------------------------------------------------------------------
+Siguiendo con el mismo error 2002
+Detener el servicio para que veamos el mensaje 2002
+sudo systemctl stop mariadb
+-------------------------------------------------------------------------------------------------------
+Ver el estado del servicio
+sudo systemctl status mariadb 
+Aparece: (inactive)
+-------------------------------------------------------------------------------------------------------
+Tratamos de eliminar phpMyAdmin y la herramienta dbconfig-common con el servicio Mariadb detenido.
+Nota: En la tercer pantalla azul nos tiene que mostrar el error 2002
+sudo apt purge phpmyadmin dbconfig-common -y
+
+Deconfigure database for phpmyadmin with dbconfig-common? ==>> Yes
+Delete the database for phpmyadmin? ==>> Yes
+Cuando le diga que si, es en la siguiente pantalla donde nos va a mandar el error 2002
+Lo que tenemos que hacer es Seleccionar: ==>> abort ==>> OK
+Reinstall database for phpmyadmin? ==>> NO
+Para salir nuevamente al prompt
+-------------------------------------------------------------------------------------------------------
+Iniciar el servicio para que ya no nos muestre el error anterior 2002
+sudo systemctl start mariadb
+-------------------------------------------------------------------------------------------------------
+Ver el estado del servicio
+sudo systemctl status mariadb
+Activo
+-------------------------------------------------------------------------------------------------------
+Iniciado el servicio, ejecutamos este comando y ya no nos manda el error anterior
+sudo apt purge phpmyadmin dbconfig-common -y
+
+Deconfigure database for phpmyadmin with dbconfig-common? ==>> Yes
+Delete the database for phpmyadmin? ==>> Yes
+Y al darle que si ya no nos aparece el error de socket
+-------------------------------------------------------------------------------------------------------
+Limpiamos dependencias y paquetes huérfanos en Debian:
+sudo apt autoremove --purge -y
+-------------------------------------------------------------------------------------------------------
+Eliminamos enlaces residuales en Apache y reiniciamos el servidor:
+sudo rm -f /etc/apache2/conf-enabled/phpmyadmin.conf
+-------------------------------------------------------------------------------------------------------
+Reiniciamos apache2
+sudo systemctl restart apache2
+Lo que hicimos no borra nuestras bases de datos personales.
+-------------------------------------------------------------------------------------------------------
+Validar que nuestro servicio este activo
+sudo systemctl status mariadb
+Si esta inactivo hacer esto
+sudo systemctl start mariadb
+Validar que nuevamente el servicio que este activo
+sudo systemctl status mariadb
+-------------------------------------------------------------------------------------------------------
+Verificamos los registros que teniamos anteriormente
+mariadb -u izone_us -p12345 -e "SELECT * FROM usuarios_tb;" izone_db
+-------------------------------------------------------------------------------------------------------
+Instalación del Entorno PHP
+-------------------------------------------------------------------------------------------------------
+Actualizar los repositorios
+sudo apt update
+Si aparece 1 o más paquetes que pueden ser actualizados, 2 packages can be upgraded, hacer lo siguiente:
+sudo apt upgrade -y
+Validar nuevamente 
+sudo apt update
+All packages are up to date. 
+-------------------------------------------------------------------------------------------------------
+Ejecutar el siguiente comando:
+sudo apt install apache2 libapache2-mod-php php php-mysql php-mbstring php-zip php-gd php-json php-curl -y
+-------------------------------------------------------------------------------------------------------
+Activar y encender Apache2 para que inicie junto con el sistema:
+sudo systemctl enable apache2 --now
+-------------------------------------------------------------------------------------------------------
+Ver el estado de apache
+sudo systemctl status apache2 
+Debe de decir Active
+-------------------------------------------------------------------------------------------------------
+Creamos el archivo de diagnóstico para PHP:
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
+-------------------------------------------------------------------------------------------------------
+Visualizamos nuestra versión de PHP en firefox con este comando:
+firefox http://localhost/info.php &
+-------------------------------------------------------------------------------------------------------
+Instalación PhpMyAdmin
+-------------------------------------------------------------------------------------------------------
+Invocamos la prioridad baja del configurador, para que nos despliegue el asistente visual completo.
+sudo DEBIAN_PRIORITY=low apt install phpmyadmin -y
+
+Respuestas de las Pantallas Azules:
+------------------------------------------------------------------------------------------------------------------------------------
+1.- Remember database passwords permanently in debconf?:		==>>NO
+------------------------------------------------------------------------------------------------------------------------------------
+2.- Will this server be used to access remote databases?: 			==>>NO
+------------------------------------------------------------------------------------------------------------------------------------
+3.- Web server to reconfigure automatically: 					==>>Marcar [*] apache2
+------------------------------------------------------------------------------------------------------------------------------------
+4.- Configure database for phpmyadmin with dbconfig-common?: 	==>>YES
+------------------------------------------------------------------------------------------------------------------------------------
+5.- Connection method for MySQL database: 					==>>Unix socket
+------------------------------------------------------------------------------------------------------------------------------------
+6.- Authentication plugin: 									==>>Default
+------------------------------------------------------------------------------------------------------------------------------------
+7.- MySQL database name: 									==>>phpmyadmin
+------------------------------------------------------------------------------------------------------------------------------------
+8.- MySQL username: 										==>>phpmyadmin@localhost
+------------------------------------------------------------------------------------------------------------------------------------
+9.- Contraseña:	 										==>>12345 
+------------------------------------------------------------------------------------------------------------------------------------
+10.- Confirmación:											==>>12345 
+------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------
+Reconfiguración por si nos saltamos algún paso en la Instalación PhpMyAdmin
+------------------------------------------------------------------------------------------------------------------------------------
+Ejecutamos este comando 
+sudo dpkg-reconfigure phpmyadmin
+
+Respuestas de las Pantallas Azules de la reconfiguración:
+------------------------------------------------------------------------------------------------------------------------------------
+1.- Reinstall database for phpmyadmin?: Seleccionar 			==>>YES
+------------------------------------------------------------------------------------------------------------------------------------
+2.- Connection method: Seleccionar 							==>>Unix socket
+------------------------------------------------------------------------------------------------------------------------------------
+3.- Authentication plugin: Seleccionar 							==>>default
+------------------------------------------------------------------------------------------------------------------------------------
+4.- MySQL database name: 									==>>phpmyadmin
+------------------------------------------------------------------------------------------------------------------------------------
+5.- MySQL username: 										==>>phpmyadmin@localhost
+------------------------------------------------------------------------------------------------------------------------------------
+6.- MySQL application password: 								==>>12345
+------------------------------------------------------------------------------------------------------------------------------------
+7.- Confirm password: 										==>>12345
+------------------------------------------------------------------------------------------------------------------------------------
+8.- Name of the database's administrative user: 				==>>root
+------------------------------------------------------------------------------------------------------------------------------------
+9.- Web server to reconfigure automatically: 					==>>Marcar [*] apache2
+------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------
+Inspección
+-------------------------------------------------------------------------------------------------------
+Para entender qué hizo el instalador, vamos a entrar al monitor de MariaDB
+mariadb -u phpmyadmin -p12345
+-------------------------------------------------------------------------------------------------------
+Dentro del monitor interactivo:
+MariaDB [(none)]> SHOW DATABASES;
+-------------------------------------------------------------------------------------------------------
+MariaDB [(none)]> USE phpmyadmin;
+-------------------------------------------------------------------------------------------------------
+Con la siguiente instrucción vamos a ver las tablas que componen phpmyadmin.
+Importante: A estas tablas que nos aparecen jamás debemos de tocarlas 
+Las podemos identificar porque siempre comienzan con el prefijo 'pma'.
+MariaDB [(phpmyadmin)]> SHOW TABLES;
+La salida que nos muestra son todas las tablas que jamás debemos de tocarlas.
+-------------------------------------------------------------------------------------------------------
+Salimos con:
+MariaDB [(phpmyadmin)]> EXIT;
+-------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------
+Enlace y Creación del usuario Admin
+-------------------------------------------------------------------------------------------------------
+Enlazamos la configuración de phpMyAdmin a la estructura de Apache
+sudo ln -sf /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+-------------------------------------------------------------------------------------------------------
+Reiniciamos el servidor web."
+sudo systemctl restart apache2
+-------------------------------------------------------------------------------------------------------
+Crear nuestro usuario dedicado para nuestros proyectos.
+sudo mariadb -u root
+-------------------------------------------------------------------------------------------------------
+Vamos a ver cuantos usuarios tenemos
+SELECT User, Host FROM mysql.user;
+Nos muestra todos los usuarios
+-------------------------------------------------------------------------------------------------------
+1. Revocamos los privilegios del usuario para evitar privilegios huérfanos
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'izone_pma'@'localhost';
+-------------------------------------------------------------------------------------------------------
+2. Eliminamos al usuario por completo del sistema
+DROP USER 'izone_pma'@'localhost';
+-------------------------------------------------------------------------------------------------------
+3. Recargamos las tablas de privilegios para asegurar el cambio
+FLUSH PRIVILEGES;
+-------------------------------------------------------------------------------------------------------
+4. Visualizar que ya no tengamos el usuario izone_pma
+SELECT User, Host FROM mysql.user;
+Nos muestra todos los usuarios excepto izone_pma
+-------------------------------------------------------------------------------------------------------
+Crear nuestro usuario izone_pma
+CREATE USER 'izone_pma'@'localhost' IDENTIFIED BY '12345';
+GRANT ALL PRIVILEGES ON *.* TO 'izone_pma'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+-------------------------------------------------------------------------------------------------------
+Ingresar a phpmyadmin
+firefox http://localhost/phpmyadmin/ &
+Colocamos el usuario 
+izone_pma
+contraseña: 12345
+Debemos de ver todas las tablas
+Cerrar sesión desde el firefox (PhpMyAdmin)
+-------------------------------------------------------------------------------------------------------
+Ingresar ahora con el usuario izone_us
+izone_us
+contraseña: 12345
+Debemos de ver las tablas: information_schema y usuarios_tb 
+Cerrar
+-------------------------------------------------------------------------------------------------------
