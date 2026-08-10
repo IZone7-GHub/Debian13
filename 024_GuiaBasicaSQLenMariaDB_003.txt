@@ -1,0 +1,97 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+003
+Guía de comandos basicos de SQL en MariaDB: 
+-------------------------------------------------------------------------------------------------------------------------------------
+Se generó anteriormente: 
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+-------------------------------------------------------------------------------------------------------------------------------------
+Recuerden contamos con:
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+
+Ingresamos:
+sudo mariadb
+Colocar contraseña de nuestro usuario con privilegios sudo, no es la contraseña de MariaDB
+
+SELECT * FROM BASE001.CONTACTOS;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+
+USE BASE001;
+Entrar a la base de datos BASE001 
+
+Va a cambiar el prompt a:
+MariaDB (none)>
+por
+MariaDB (BASE001)>
+
+system clear
+Limpiar Pantalla
+
+SELECT * FROM CONTACTOS;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+
+SELECT * FROM CONTACTOS WHERE EDAD >40;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde la Edad sea de 41 en adelante.
+
+SELECT * FROM CONTACTOS WHERE EDAD >=40;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde la Edad sea de 40 en adelante.
+
+SELECT * FROM CONTACTOS WHERE EDAD <=40;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde la Edad sea de 40 en adelante.
+
+SELECT * FROM CONTACTOS WHERE EDAD >=40 AND EDAD <=50;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde la Edad entre 40 y 50
+
+SELECT * FROM CONTACTOS WHERE EDAD >=40 AND EDAD <=50;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde la Edad entre 40 y 50
+
+SELECT * FROM CONTACTOS WHERE TELEFONO ='5474487055';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo TELEFONO contenga el número igual a: 5474487055
+
+SELECT * FROM CONTACTOS WHERE TELEFONO LIKE '%55%';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo TELEFONO contenga el número: 55
+
+SELECT * FROM CONTACTOS WHERE TELEFONO LIKE '%55%';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo TELEFONO contenga el número: 5
+
+SELECT * FROM CONTACTOS WHERE NOMBRE LIKE '%5%';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo NOMBRE contenga el número: 5 (No va a mostrar nada ya que ningún registro contiene el número 5)
+
+SELECT * FROM CONTACTOS WHERE NOMBRE LIKE '%A%';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo NOMBRE contenga el caracter: A
+
+SELECT * FROM CONTACTOS WHERE NOMBRE LIKE '%IA%';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Donde el campo NOMBRE contenga el caracter: IA
+
+UPDATE CONTACTOS SET EDAD = 37 WHERE NOMBRE = 'JUAN';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Va a actualizar el campo EDAD de JUAN con el número 37
+
+UPDATE CONTACTOS SET EDAD = 43 WHERE NOMBRE = 'VALERIA';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Va a actualizar el campo EDAD de VALERIA con el número 43
+
+DELETE FROM CONTACTOS WHERE NOMBRE = 'LUIS';
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Va a eliminar la línea del campo NOMBRE donde esta LUIS
+ 
+SELECT * FROM CONTACTOS ORDER BY EDAD ASC;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Va a ordenar de manera Ascendente el campo EDAD de la tabla CONTACTOS
+
+SELECT * FROM CONTACTOS ORDER BY EDAD DESC;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+Va a ordenar de manera Descendente el campo EDAD de la tabla CONTACTOS
+

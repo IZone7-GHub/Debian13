@@ -1,0 +1,65 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+001
+Guía de comandos basicos de SQL en MariaDB: 
+-------------------------------------------------------------------------------------------------------------------------------------
+Validar que el servicio este activo
+sudo systemctl status mariadb
+Debe de estar Active
+-------------------------------------------------------------------------------------------------------------------------------------
+Se generó anteriormente: 
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+-------------------------------------------------------------------------------------------------------------------------------------
+Recuerden contamos con:
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+Ingresamos:
+sudo mariadb
+
+SHOW DATABASES;
+Nos va a mostrar la Base de Datos Base001
+
+SHOW TABLES FROM BASE001;
+Nos va a mostrar la tabla CONTACTOS
+
+SELECT * FROM BASE001.CONTACTOS;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+
+DROP DATABASE BASE001;
+Elimina totalmente la Base de Datos BASE001
+
+SELECT * FROM BASE001.CONTACTOS;
+Ya no va a mostrar ningún registro ya que la Base de Datos la eliminamos
+
+system clear
+Limpiar la pantalla
+-------------------------------------------------------------------------------------------------------------------------------------
+Creamos nuevamente la Base de Datos llamada BASE001
+CREATE DATABASE BASE001;
+
+Entrar a la base de datos ya creada
+USE BASE001;
+
+Creamos la tabla CONTACTOS
+CREATE TABLE CONTACTOS (
+ID INT AUTO_INCREMENT PRIMARY KEY,
+NOMBRE VARCHAR(50),
+TELEFONO VARCHAR(15),
+EDAD INT
+);
+
+SELECT * FROM BASE001.CONTACTOS;
+Nos va a mostrar empty
+
+Insertamos los datos en CONTACTOS 
+INSERT INTO CONTACTOS (NOMBRE, TELEFONO, EDAD) VALUES
+('ANA', '5512345678', 38),
+('PEDRO', '5512599798', 42),
+('ROCIO', '5512345688', 28);
+
+Validamos que los registros se hayan insertado correctamente
+SELECT * FROM CONTACTOS;
+SELECT * FROM BASE001.CONTACTOS;
+
+Nos va a mostrar los registros que insertamos.
+-------------------------------------------------------------------------------------------------------------------------------------

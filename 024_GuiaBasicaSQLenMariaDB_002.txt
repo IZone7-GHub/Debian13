@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+002
+Guía de comandos basicos de SQL en MariaDB: 
+-------------------------------------------------------------------------------------------------------------------------------------
+Exportar los registros de una tabla a un archivo .csv
+mysql -u root -p BASE001 \
+> -E "SELECT * FROM CONTACTOS;" \
+> --batch --raw --column names \
+> >/home/izone/Proyectos/sql/CONTACTOS.CSV
+Escribir contraseña de MariaDB
+Y el archivo lo exporta correctamente.
+
+Para importar los registros a una tabla
+mysql -u root -p BASE001 \
+> -e "LOAD DATA LOCAL INFILE ' /home/izone/Proyectos/sql/CONTACTOS.CSV'
+> INTO TABLE CONTACTOS
+> FIELDS TERMINATED BY '\t'
+> LINES TERMINATED BY '\n'
+> IGNORE 1 LINES;
+> "
+Escribir contraseña de MariaDB
+Y el archivo lo importa correctamente a nuestra tabla CONTACTOS.

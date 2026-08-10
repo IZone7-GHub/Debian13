@@ -1,0 +1,129 @@
+-------------------------------------------------------------------------------------------------------------------
+Instalar y Configurar Servidor PostgreSQL en Debian 13
+-------------------------------------------------------------------------------------------------------------------
+Verificar el cliente para poder interactuar con Postgresql 
+psql --version
+------------------------------------------------------------------------------------------------------------------- 
+Iniciar la herramienta de linea de comandos 
+sudo -u postgres psql
+Contraseña de su usuario en este caso nuestro usuario es izone
+------------------------------------------------------------------------------------------------------------------- 
+Estando dentro de psql
+Listar las bases de datos creadas
+\l 
+------------------------------------------------------------------------------------------------------------------- 
+Ingresar a la base de datos izone_db
+\c izone_db
+------------------------------------------------------------------------------------------------------------------- 
+Listar las tablas creadas:
+\dt
+------------------------------------------------------------------------------------------------------------------- 
+Ver los registros de la tabla usuarios
+SELECT * FROM usuarios_tb;
+------------------------------------------------------------------------------------------------------------------- 
+Salir :
+\q
+------------------------------------------------------------------------------------------------------------------- 
+Desinstalar completamente PostgreSQL
+------------------------------------------------------------------------------------------------------------------- 
+Purgar el paquete principal y limpiar automáticamente todas sus dependencias y configuraciones
+sudo ap t purge -y "postgresql*" && sudo apt autoremove --purge -y
+------------------------------------------------------------------------------------------------------------------- 
+Pantalla en azul que dice:
+Remover PostgreSQL decir que Si o Yes
+------------------------------------------------------------------------------------------------------------------- 
+Borrar carpetas de bases de datos y configuraciones residuales
+sudo rm -rf /etc/postgresql/
+sudo rm -rf /var/lib/postgresql/
+sudo rm -rf /var/log/postgresql/
+------------------------------------------------------------------------------------------------------------------- 
+Paso 3: Verificar eliminación
+apt list --installed | grep postgresql
+Aparece un Warning (Es normal)
+------------------------------------------------------------------------------------------------------------------- 
+Verificar el cliente CLI
+psql --version
+Aparece No such file or directory
+------------------------------------------------------------------------------------------------------------------- 
+Instalación y Configuración de PostgreSQL en Debian 13
+------------------------------------------------------------------------------------------------------------------- 
+Instalar PostgreSQL
+Actualizar repositorios 
+sudo apt update
+------------------------------------------------------------------------------------------------------------------- 
+Instalar el servidor y la suite común
+sudo apt install -y postgresql postgresql-contrib
+------------------------------------------------------------------------------------------------------------------- 
+Verificar que el servicio esté activo
+sudo systemct  l status postgresql
+Aparece: Active 
+------------------------------------------------------------------------------------------------------------------- 
+Crear el usuario 'izone_us' (te pedirá asignarle una contraseña)
+sudo -u postgres createuser --interactive --pwprompt
+Enter name of role to add: izone_us
+Enter password for new role: 12345
+Enter it again: [12345]
+Shall the new role be a superus xer? (y/n) n
+Shall the new role be allowed to create databases? (y/n) n
+Shall the new role be allowed to create more new roles? (y/n) n
+------------------------------------------------------------------------------------------------------------------- 
+Crear la base de datos 'izone_db' asignando a 'izone_us' como dueño
+sudo -u postgres createdb -O izone_us izone_db
+------------------------------------------------------------------------------------------------------------------- 
+Conectarse a la base de  datos local
+psql -U izone_us -d izone_db -h localhost -W
+------------------------------------------------------------------------------------------------------------------- 
+Conectarse a la nueva base de datos
+\c izone_db
+------------------------------------------------------------------------------------------------------------------- 
+Ver tablas nos aparece esto que no encontro nada, porque todavía no creamos ninguna tabla
+\dt
+Did not find any relations.
+------------------------------------------------------------------------------------------------------------------- 
+Crear una tabla llamada usuarios_tb
+CREATE TABLE usuarios_tb (
+id SERIAL PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL,
+email VARCHAR(50) UNIQUE NOT NULL,
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE = Crear tabla
+SERIAL = Contador de la tabla
+PRIMARY KEY = Llave Primaria
+VARCHAR = Texto Variable de longitud (numeros, letras, simbolos)
+NOT NULL = Campo obligatorio, no puede estar estar vacío
+UNIQUE NOT NULL = Campo obligatorio y ademas que no se repita con otro registro
+TIMESTAMP = Tipo para fecha y hora.
+DEFAULT CURRENT_TIMESTAMP= Coloque la hora y fecha exacta en el campo 
+------------------------------------------------------------------------------------------------------------------- 
+Ver como esta la estructura de la tabla
+\d usuarios_tb
+------------------------------------------------------------------------------------------------------------------- 
+Ver los registros de la tabla usuarios
+SELECT * FROM usuarios_tb;
+------------------------------------------------------------------------------------------------------------------- 
+Insertar un registro en la tabla usuarios_tb
+INSERT INTO usuarios_tb (nombre, email) VALUES ('JUAN', 'JUAN@EXAMPLE.COM');
+------------------------------------------------------------------------------------------------------------------- 
+Ver los registros de la tabla usuarios
+SELECT * FROM usuarios_tb;
+Nos tiene que aparecer el registro juan agregado
+------------------------------------------------------------------------------------------------------------------- 
+Insertar otro registro en la tabla usuarios_tb
+INSERT INTO usuarios_tb (nombre, email) VALUES ('CARMEN', 'CARMEN@EXAMPLE.COM');
+------------------------------------------------------------------------------------------------------------------- 
+Ver los registros de la tabla usuarios
+SELECT * FROM usuarios_tb;
+Nos tiene que aparecer ahora dos registros, JUAN y CARMEN
+------------------------------------------------------------------------------------------------------------------- 
+Para importar los registros desde nuestro csv
+\copy usuarios_tb(nombre, email) FROM '/home/izone/tutoriales/postgresql/csv/usuarios.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
+-------------------------------------------------------------------------------------------------------------------
+Vemos los registros importados a la tabla usuarios desde nuestro csv
+SELECT * FROM usuarios_tb;
+Van a aparecer los registros que importamos
+-------------------------------------------------------------------------------------------------------------------
+Salir de la consola de PostgreSQL
+\q
+-------------------------------------------------------------------------------------------------------------------

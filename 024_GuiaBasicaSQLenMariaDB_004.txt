@@ -1,0 +1,78 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+004
+Guía de comandos basicos de SQL en MariaDB: 
+-------------------------------------------------------------------------------------------------------------------------------------
+Se generó anteriormente: 
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+-------------------------------------------------------------------------------------------------------------------------------------
+Recuerden contamos con:
+Base de Datos llamada: BASE001
+Tabla: CONTACTOS
+
+Ingresamos:
+sudo mariadb
+Colocar contraseña de nuestro usuario con privilegios sudo, no es la contraseña de MariaDB
+
+SELECT * FROM BASE001.CONTACTOS;
+Nos va a mostrar los registros que contiene la tabla CONTACTOS
+
+USE BASE001;
+Entrar a la base de datos BASE001 
+
+Va a cambiar el prompt a:
+MariaDB (none)>
+por
+MariaDB (BASE001)>
+
+SHOW TABLES;
+Para que nos muestre todas las tablas que están dentro de BASE001
+En este ejercicio únicamente tenemos 1 tabla que se llama CONTACTOS
+
+Creamos una nueva tabla que se llama FOLIOS
+ID INT AUTO_INCREMENT PRIMARY KEY,
+NOMBRE VARCHAR(50) ,
+NUMEROFOLIO VARCHAR(15)
+);
+
+SHOW TABLES;
+Para que nos muestre todas las tablas que están dentro de BASE001
+En este ejercicio van a aparecer 2 tablas CONTACTOS y FOLIOS
+
+SELECT * FROM FOLIOS;
+No nos va a mostrar ningún registro ya que todavía no agregamos ninguno
+
+SELECT * FROM CONTACTO;
+Para visualizar los campos y los nombres que vamos a insertar a la tabla FOLIOS
+
+INSERT ITO FOLIOS (NOMBRE, NUMEROFOLIO) VALUES 
+('ANA', 'A123456'),
+('JUAN', 'J123456');
+
+SELECT * FROM FOLIOS;
+Nos va a mostrar los registros que ingresamos a nuestra tabla FOLIOS
+
+SELECT * FROM CONTACTOS;
+Visualizar los registros de la tabla CONTACTOS
+
+SELECT
+CONTACTOS.NOMBRE,
+FOLIOS.NUMEROFOLIO,
+CONTACTOS.TELEFONO,
+CONTACTOS.EDAD
+FROM CONTACTOS
+JOIN FOLIOS
+ON CONTACTOS.NOMBRE = FOLIOS.NOMBRE;
+Nos va a mostrar únicamente los registros donde esta el match de información que es:
+NOMBRE de la tabla CONTACTOS = NOMBRE de la tabla FOLIOS.
+ 
+
+SELECT
+CONTACTOS.NOMBRE,
+FOLIOS.NUMEROFOLIO,
+CONTACTOS.TELEFONO,
+CONTACTOS.EDAD
+FROM  CONTACTOS
+LEFT JOIN FOLIOS
+ON CONTACTOS.NOMBRE = FOLIOS.NOMBRE;
+Nos va a mostrar todos los registros de la tabla CONTACTOS y va a mostrar NULL los que no hagan match en la columna NUMEROFOLIO
