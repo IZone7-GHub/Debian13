@@ -1,0 +1,397 @@
+------------------------------------------------------------------------------------------------------
+Verificar, Desinstalar, Instalar y Crear Entorno Docker en Debian 13
+------------------------------------------------------------------------------------------------------
+Verificar si Docker está instalado
+docker --version 
+------------------------------------------------------------------------------------------------------
+Listar las imágenes disponibles
+docker images
+------------------------------------------------------------------------------------------------------
+Ver nuestros contenedores
+docker ps -a
+Para este ejercicio tenemos actualmente 3 contenedores
+------------------------------------------------------------------------------------------------------
+Creación de contenedores
+------------------------------------------------------------------------------------------------------
+Para crear un contenedor 
+docker run -it proyecto001:latest
+Docker no va con sudo ya que somos admin del entorno
+------------------------------------------------------------------------------------------------------
+Vemos nuevamente los contenedores y van a aparecer 4
+docker ps -a 
+------------------------------------------------------------------------------------------------------
+Para crear otro contenedor 
+docker run -it  proyecto001:latest
+------------------------------------------------------------------------------------------------------
+Vemos nuevamente los contenedores y van a aparecer 5
+docker ps -a
+------------------------------------------------------------------------------------------------------
+Crear un contenedor temporal
+docker run -it --rm proyecto001:latest
+------------------------------------------------------------------------------------------------------
+Vemos nuevamente los contenedores y van a aparecer 5 ya que colocamos rm
+docker ps -a 
+------------------------------------------------------------------------------------------------------
+Vamos a eliminar 3 contendores
+Elimina el contenedor:
+docker rm nombrecontenedor
+------------------------------------------------------------------------------------------------------
+Validamos que no este el contenedor 1 esté eliminado
+docker ps -a
+------------------------------------------------------------------------------------------------------
+Elimina otro contenedor:
+docker rm nombredeotrocontenedor
+------------------------------------------------------------------------------------------------------
+Validamos que no este el contenedor 2 esté eliminado
+docker ps -a
+------------------------------------------------------------------------------------------------------
+Elimina otro contenedor:
+docker rm nombredeotrocontenedor
+------------------------------------------------------------------------------------------------------
+Validamos que no este el contenedor 3 esté eliminado
+docker ps -a
+Deben de quedarnos 2 contenedores
+------------------------------------------------------------------------------------------------------
+Renombrar el nombre del contenedor
+En nuestro ejemplo tenemos que renombrar dos contenedores 
+1 .- izone 
+2 .- izone002
+docker rename nombreactualcontenedor nombrenuevocontenedor
+
+Así sería:
+docker rename blissful izone
+------------------------------------------------------------------------------------------------------
+Validamos el cambio de nombre 
+docker ps -a 
+------------------------------------------------------------------------------------------------------
+Renombrar el siguiente contenedor
+docker rename sharp_ritchie izone002
+------------------------------------------------------------------------------------------------------
+Validamos el cambio de nombre 
+docker ps -a 
+------------------------------------------------------------------------------------------------------
+Para ingresar al contenedor version anterior
+docker start izone
+docker attach izone
+ El tema que luego attach en ocasiones uno lo apagaba accidentalmente cuando se escribia exit
+------------------------------------------------------------------------------------------------------
+Para ingresar al contenedor correctamente
+docker start izone 
+docker exec -it izone bash
+------------------------------------------------------------------------------------------------------
+Cuando se termine de trabajar
+docker stop izone 
+------------------------------------------------------------------------------------------------------
+Si es necesario reiniciar el contenedor
+docker restart izone 
+------------------------------- -----------------------------------------------------------------------
+Para ingresar al contenedor correctamente
+docker start izone 
+izone <<== El nombre del contenedor
+------------------------------------------------------------------------------------------------------
+Nos conectamos al contenedor
+docker exec -it izone bash
+root@idcontenedor:/app# <<== Va a cambiar el prompt modo root
+------------------------------------------------------------------------------------------------------
+Visualizar los archivos que contiene el contenedor
+root@idcontenedor:/app#ls
+------------------------------------------------------------------------------------------------------
+Ver si tenemos nano instalado
+root@idcontenedor:/app#nano
+bash nano: command not found <<== No esta instalado
+------------------------------------------------------------------------------------------------------
+Actualizar nuestros repositorios dentro de nuestro contenedor
+apt update
+------------------------------------------------------------------------------------------------------
+Instalar nano
+apt install -y nano
+------------------------------------------------------------------------------------------------------
+Validar si tenemos nano instalado
+nano
+------------------------------------------------------------------------------------------------------
+Crear un archivo Instalar.txt dentro de nano
+nano
+Contenido
+Test Instalación nano
+Guardar como Instalar.txt
+------------------------------------------------------------------------------------------------------
+Visualizar el contenido del archivo Instalar.txt
+cat Instalar.txt
+Test Instalación nano
+------------------------------------------------------------------------------------------------------
+Crear un archivo6.txt
+cat > archivo6.txt
+Contenido archivo 6
+Ctrl + D
+------------------------------------------------------------------------------------------------------
+Validar el contenido del archivo 6
+cat archivo6.txt
+Contenido archivo 6
+------------------------------------------------------------------------------------------------------
+Para remover nano
+apt remove nano  
+------------------------------------------------------------------------------------------------------
+Validar que nano este desinstalado
+nano
+bash nano: command not found <<== No esta instalado
+------------------------------------------------------------------------------------------------------
+Salimos
+exit
+------------------------------------------------------------------------------------------------------
+Apagamos nuestro contenedor izone
+docker stop izone
+------------------------------------------------------------------------------------------------------
+Visualizar los contenedores
+docker ps -a 
+------------------------------------------------------------------------------------------------------
+Ingresamos a nuestro contenedor
+docker start izone
+Nos conectamos al contenedor
+docker exec -it izone bash
+root@idcontenedor:/app# <<== Va a cambiar el prompt modo root
+------------------------------------------------------------------------------------------------------
+Validamos que los archivos que creamos existan
+ls
+Van a aparecer los 7 archivos
+------------------------------------------------------------------------------------------------------
+Visualizar el Instalar.txt
+Test instalación nano
+------------------------------------------------------------------------------------------------------
+Visualizar el archivo6.txt
+cat archivo6.txt
+Contenido archivo 6
+------------------------------------------------------------------------------------------------------
+Eliminamos el archivo Instalar.txt
+rm Instalar.txt 
+------------------------------------------------------------------------------------------------------
+Validamos que se haya eliminado el archivo Instalar.txt
+ls
+Van a aparecer los archivos excepto Instalar.txt
+------------------------------------------------------------------------------------------------------
+Salimos con 
+exit
+------------------------------------------------------------------------------------------------------
+Detenemos con
+docker stop izone
+------------------------------------------------------------------------------------------------------
+Crear una imagen que se llame proyecto002
+En este ejemplo tengo el Dockerfile, en la carpeta tutoriales/docker_python
+Ingresamos a la carpeta 
+cd ~/tutoriales/docker_python
+Mostrar archivos dentro de la carpeta
+ls
+Visualizar el contenido de Dockerfile
+cat Dockerfile
+------------------------------------------------------------------------------------------------------
+Vamos a ver las imagenes
+docker images 
+------------------------------------------------------------------------------------------------------
+Ingresamos a una carpeta donde no contenga Dockerfile
+Y tratamos de crear la imagen
+docker build -t proyecto002:1.0 .
+Es necesario Dockerfile para crear la imagen, de lo contrario aparecerá este mensaje
+ERROR, Dockerfile: no such file or directory
+------------------------------------------------------------------------------------------------------
+Ingresamos a la carpeta donde si contiene Dockerfile
+Y tratamos de crear la imagen pero sin el punto al final
+docker build -t proyecto002:1.0 
+Va a decir algo donde requiere 1 argument y no va a generar la imagen
+------------------------------------------------------------------------------------------------------
+Estando en la carpeta que si contiene archivo Dockerfile esta dentro de tutoriales/docker_python
+Y creamos la imagen con el punto al final
+docker build -t proyecto002:1.0 .
+Aquí si va a generarla correctamente
+------------------------------------------------------------------------------------------------------
+Validamos que exista nuestra imagen proyecto002:1.0
+docker images 
+Tiene que aparecer la imagen creada proyecto002:1.0
+------------------------------------------------------------------------------------------------------
+Crear un contenedor para posteriormente al eliminar nos muestre un error de unable to delete
+docker run -it proyecto002:1.0
+exit
+------------------------------------------------------------------------------------------------------
+Tratar de eliminar la imagen
+docker rmi proyecto002:1.0 (Aqui manda el unable to delete)
+------------------------------------------------------------------------------------------------------
+Visualizar los contenedores para ver el ID del contenedor
+docker ps -a
+------------------------------------------------------------------------------------------------------
+Copiamos el ID del contenedor de la imagen proyecto002:1.0
+docker stop idcontenedor
+------------------------------------------------------------------------------------------------------
+Elimina el contenedor:
+docker rm idcontenedor
+------------------------------------------------------------------------------------------------------
+Eliminar la imagen:
+docker rmi proyecto002:1.0
+Va a eliminar la imagen
+------------------------------------------------------------------------------------------------------
+Validar que la imagen ya no exista
+docker images
+No va a aparecer proyecto002:1.0
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+Desinstalacion completa 
+------------------------------------------------------------------------------------------------------
+Detener servicios
+sudo systemctl stop docker
+sudo systemctl stop docker.socket
+------------------------------------------------------------------------------------------------------
+Purgar paquetes antiguos
+sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+------------------------------------------------------------------------------------------------------
+Eliminar directorios residuales
+sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/containerd
+------------------------------------------------------------------------------------------------------
+Eliminar repositorios y claves previas
+sudo rm -f /etc/apt/sources.list.d/docker.list
+sudo rm -f /usr/share/keyrings/docker-archive-keyring.gpg
+sudo rm -f /etc/apt/keyrings/docker.asc
+------------------------------------------------------------------------------------------------------
+Limpieza de paquetes huérfanos y actualizar caché
+sudo apt autoremove -y
+sudo apt update
+Si aparece : packages can be upgraded
+sudo apt upgrade -y
+Nuevamente validamos con 
+sudo apt update
+Debe de aparecer all packages are up to date
+------------------------------------------------------------------------------------------------------
+Verificar si Docker está instalado
+docker --version 
+No such file or directory
+------------------------------------------------------------------------------------------------------
+Instalación 
+------------------------------------------------------------------------------------------------------
+Instalar dependencias esenciales
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg lsb-release
+------------------------------------------------------------------------------------------------------
+Crear el directorio seguro para la clave GPG (Estándar moderno)
+sudo install -m 0755 -d /etc/apt/keyrings
+------------------------------------------------------------------------------------------------------
+Descargar la clave GPG oficial de Docker
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+------------------------------------------------------------------------------------------------------
+Nos vamos a asegurar de que todos los usuarios puedan leer la clave GPG
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+------------------------------------------------------------------------------------------------------
+Agregar el repositorio detectando automáticamente "trixie" (Debian 13)
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+------------------------------------------------------------------------------------------------------
+Actualizar los repositorios e instalar Docker Engine
+sudo apt update
+------------------------------------------------------------------------------------------------------
+Es lo mismo de purgar solo cambiar purge por install
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+------------------------------------------------------------------------------------------------------
+Configurar permisos para usar Docker sin 'sudo'
+sudo usermod -aG docker $USER
+------------------------------------------------------------------------------------------------------
+Verificar si Docker está instalado
+docker --version 
+------------------------------------------------------------------------------------------------------
+Creacion de images y contenedores
+------------------------------------------------------------------------------------------------------
+Crear y entrar al directorio de trabajo
+cd ~/tutoriales/
+ls
+rm -r docker_python
+mkdir -p docker_python
+cd docker_python
+ls
+------------------------------------------------------------------------------------------------------
+Crear varios archivos en formato .txt 
+Estando dentro de docker_python
+for i in {1..5}; do echo "Contenido de texto $i" > "archivo$i.txt"; done
+------------------------------------------------------------------------------------------------------
+Visualizar los archivos creados
+ls
+------------------------------------------------------------------------------------------------------
+Ver el contenido de los archivos creados
+cat *.txt
+------------------------------------------------------------------------------------------------------
+Crear el Dockerfile (Para armar la imagen)
+nano Dockerfile
+Tiene que llevar este contenido
+FROM python:3.11-slim
+WORKDIR /app
+COPY *.txt .
+CMD ["/bin/bash"]
+Guardamos y salimos
+------------------------------------------------------------------------------------------------------
+Que significa cada linea del archivo que creamos
+# Usamos una imagen ligera de Python oficial
+FROM python:3.11-slim
+# Establecemos el directorio de trabajo dentro del contenedor
+WORKDIR /app
+# Copiamos TODOS los archivos .txt de nuestra carpeta real al contenedor
+COPY *.txt .
+# Comando por defecto para arrancar el contenedor directo en la terminal
+CMD ["/bin/bash"]
+------------------------------------------------------------------------------------------------------
+Forzar el cambio de grupo en la terminal actual
+Para que nos permita crear la imagen
+newgrp docker
+------------------------------------------------------------------------------------------------------
+Construir la imagen de Docker
+docker build -t proyecto001:1.1 . (Va punto al final)
+------------------------------------------------------------------------------------------------------
+Para ver las imagenes ya hechas es con Docker y si no sabemos como se llaman con este comando las podemos ver
+docker images
+Va a aparecer proyecto001:1.1
+------------------------------------------------------------------------------------------------------
+Creamos un contenedor con nombre fijo 
+docker run -it --name izone proyecto001:1.1
+exit
+------------------------------------------------------------------------------------------------------
+Validamos que se haya creado izone
+docker ps -a
+------------------------------------------------------------------------------------------------------
+Para ingresar al contenedor
+Encender:
+docker start izone
+Comenzar a trabajar con docker:
+docker exec -it izone bash
+------------------------------------------------------------------------------------------------------
+Crear un archivo que se llame archivo6.txt
+cat >archivo6.txt
+Contenido de texto 6
+Ctrl + D para guardar
+------------------------------------------------------------------------------------------------------
+Validamos que se haya creado el archivo
+ls
+Debe de aparecer el archivo6.txt en la lista
+------------------------------------------------------------------------------------------------------
+Validamos el contenido del archivo
+cat archivo6.txt
+Nos debe de mostrar lo siguiente
+Contenido de texto 6
+------------------------------------------------------------------------------------------------------
+Validamos el contenido de todos los archivos de texto
+cat *.txt
+Nos debe de mostrar el contenido de los archivos
+------------------------------------------------------------------------------------------------------
+Instalar nano
+apt update
+apt install -y nano
+------------------------------------------------------------------------------------------------------
+Validar si tenemos nano instalado
+nano
+------------------------------------------------------------------------------------------------------
+Remover nano
+apt remove nano
+exit
+------------------------------------------------------------------------------------------------------
+Validar que nano no lo tengamos instalado
+nano
+decimos Y
+No such file or directory
+------------------------------------------------------------------------------------------------------
+Apagar nuestro contenedor izone
+docker stop izone
+------------------------------------------------------------------------------------------------------
